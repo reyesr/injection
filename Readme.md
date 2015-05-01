@@ -19,7 +19,7 @@ Somewhere early in your program startup sequence, add the configuration for the 
 For instance:
 
     using namespace injection;
-    InjectationManager::bind_singleton<BaseClass, BaseClassImpl>();
+    InjectionManager::bind_singleton<BaseClass, BaseClassImpl>();
 
 Then, anywhere in your program:
 
@@ -111,6 +111,21 @@ There's a cmake project ready to run:
 ## What if something is missing
 
 Just fork it, or modify it in-place in your project, it's really just a small piece of code.
+
+## Is it really under 100 lines of code ?
+
+    $ ohcount include/injectionmanager.h
+    Examining 1 file(s)
+
+                              Ohloh Line Count Summary
+
+    Language          Files       Code    Comment  Comment %      Blank      Total
+    ----------------  -----  ---------  ---------  ---------  ---------  ---------
+    cpp                   1         98         57      36.8%         26        181
+    ----------------  -----  ---------  ---------  ---------  ---------  ---------
+    Total                 1         98         57      36.8%         26        181
+
+It's exactly 98 LOC.
 
 ## License
 
