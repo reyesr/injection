@@ -161,19 +161,18 @@ template<typename I> class Injected
 {
     std::shared_ptr<I> instance;
 public:
+    Injected(): instance(injection_private::InjectionEngine<I>::config(nullptr, injection_private::InjectionCommand::GET)) {}
+
     inline I* operator*() {
         return operator->();
     }
 
     I* operator->() {
-        if (!instance) {
-            instance = injection_private::InjectionEngine<I>::config(nullptr, injection_private::InjectionCommand::GET);
-        }
         return instance.get();
     }
 
     operator bool() const {
-        return instance;
+        return instance.operator bool();
     }
 };
 

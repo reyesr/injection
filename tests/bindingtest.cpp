@@ -42,6 +42,26 @@ TEST(Redefining_the_binding_different_scope, ([](){
     Assert::eq(test->value2, 8.0);
 }));
 
+
+TEST(Checking_binding_injected, ([](){
+    InjectionManager::bind_singleton<ITest, Test1>();
+    Injected<ITest> test;
+    Assert::eq(Test1::VALUE, test->value);
+    Assert::istrue(test.operator *() != 0);
+    Assert::istrue(test);
+}));
+
+TEST(Checking_binding_not_injected, ([](){
+    InjectionManager::bind_singleton<ITest, Test1>();
+    Injected<Test1> test;
+    Assert::isfalse(test.operator *() != 0);
+    Assert::isfalse(test);
+
+    Injected<Test2> test2;
+    Assert::isfalse(test2.operator *() != 0);
+    Assert::isfalse(test2);
+}));
+
 END_TEST_GROUP
 
 

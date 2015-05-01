@@ -34,12 +34,12 @@ void Assert::throwif(bool b, const string &message)
 
 void Assert::istrue(bool b, const string &message)
 {
-    throwif(b,message);
+    throwif(!b,message);
 }
 
 void Assert::isfalse(bool b, const string &message)
 {
-    throwif(!b,message);
+    throwif(b,message);
 }
 
 
