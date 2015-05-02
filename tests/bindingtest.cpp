@@ -30,6 +30,9 @@ TEST(Redefining_the_binding_different_scope, ([](){
         return new ITest(3, 0.33);
     });
     checkITest(3, 0.33);
+    Injected<ITest> test0;
+    Assert::eq(test0->value, 3);
+    Assert::eq(test0->value2, 0.33);
 
     IncrementingTest::init(0,0.0);
 
@@ -40,6 +43,10 @@ TEST(Redefining_the_binding_different_scope, ([](){
     Injected<ITest> test;
     Assert::eq(test->value, 4);
     Assert::eq(test->value2, 8.0);
+
+    // No change on test0
+    Assert::eq(test0->value, 3);
+    Assert::eq(test0->value2, 0.33);
 }));
 
 
@@ -61,6 +68,24 @@ TEST(Checking_binding_not_injected, ([](){
     Assert::isfalse(test2.operator *() != 0);
     Assert::isfalse(test2);
 }));
+
+
+struct SelfReferenced {
+    int value;
+    SelfReferenced() : value(-1) {}
+    SelfReferenced(int i) : value(i) {}
+};
+
+TEST(injecting_without_interfaces, ([](){
+    InjectionManager::bind_singleton<SelfReferenced, SelfReferenced>();
+    Injected<SelfReferenced> test;
+    Assert::eq(test->value, -1);
+
+    InjectionManager::bind_singleton<SelfReferenced>(new SelfReferenced(-2));
+    Injected<SelfReferenced> test2;
+    Assert::eq(test2->value, -2);
+}));
+
 
 END_TEST_GROUP
 

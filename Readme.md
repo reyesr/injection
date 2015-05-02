@@ -102,6 +102,15 @@ Of course, just like `std::shared_ptr`:
     Injected<Something> foo;
     Injected<Something> bar = foo;
 
+### Injecting without interfaces
+
+The nominal case of the dependency injection pattern is based on interfaces and implementation classes,
+but this is not mandatory here.
+
+    InjectionManager::bind_singleton<MyRealClass, MyRealClass>();
+    Injected<MyRealClass> instance; // ready to go
+
+
 ## Running the unit tests
 
 There's a cmake project ready to run:
