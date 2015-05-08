@@ -161,11 +161,22 @@ template<typename I> class Injected
 {
     std::shared_ptr<I> instance;
 public:
+    /**
+     * @brief the default constructor's behaviour is to immediatly inject the instance. This can be discussed,
+     * as it could also be lazily injected on the first call to use it (in the operator->() method). I decided to
+     * do it eagerly for the sake of simplicity, but it's easy to change this, or just add another 'LazilyInjected<I>'
+     * class so would be used alternatively.
+     */
     Injected(): instance(injection_private::InjectionEngine<I>::config(nullptr, injection_private::InjectionCommand::GET)) {}
 
-    inline I* operator*() {
-        return operator->();
-    }
+    /**
+     * @brief The copy constructor avoids unexpected injections (that would not be a great deal for singletons, definitily wrong
+     * for transient injections).
+     * @param other
+     */
+    Injected(const Injected<I>&other): instance(other.instance) {}
+
+    inline I* operator*() { return operator->(); }
 
     I* operator->() {
         return instance.get();

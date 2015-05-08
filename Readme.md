@@ -8,7 +8,7 @@ Only tiny drawback: your compiler must support a basic subset of c++11 (lambda, 
 
 ## Rationale
 
-Adding a full blown framework in a c++ project is always a painful mess, and most project have simple needs. This is what happened here, so here is a simple yet fully functional dependency injection system all in one header.
+Adding a full blown framework in a c++ project is always a painful mess, and most projects have simple needs. This is what happened here, so here is a simple yet fully functional dependency injection system all in one header.
 
 Just move the `include/injectionmanager.h` file in your project, and you're ready to go.
 
@@ -130,11 +130,11 @@ Just fork it, or modify it in-place in your project, it's really just a small pi
 
     Language          Files       Code    Comment  Comment %      Blank      Total
     ----------------  -----  ---------  ---------  ---------  ---------  ---------
-    cpp                   1         98         57      36.8%         26        181
+    cpp                   1         97         68      41.2%         27        192
     ----------------  -----  ---------  ---------  ---------  ---------  ---------
-    Total                 1         98         57      36.8%         26        181
+    Total                 1         97         68      41.2%         27        192
 
-It's exactly 98 LOC.
+It's exactly 97 LOC.
 
 ## License
 

@@ -86,7 +86,51 @@ TEST(injecting_without_interfaces, ([](){
     Assert::eq(test2->value, -2);
 }));
 
+class SelfCountingInstance {
+public:
+    static int counter;
+    int value;
+    SelfCountingInstance() {
+        value = counter++;
+    }
+};
+int SelfCountingInstance::counter = 0;
+
+TEST(injecting_then_copy_constructor, ([](){
+    SelfCountingInstance::counter = 0;
+    InjectionManager::bind_transient<SelfCountingInstance, SelfCountingInstance> ();
+    Injected<SelfCountingInstance> test;
+    Assert::eq(test->value, 0);
+    Assert::eq(SelfCountingInstance::counter, 1);
+
+    Injected<SelfCountingInstance>  testcopy = test;
+    Assert::eq(testcopy->value, 0);
+    Assert::eq(SelfCountingInstance::counter, 1);
+
+    Injected<SelfCountingInstance>  testcopy2(test);
+    Assert::eq(testcopy2->value, 0);
+    Assert::eq(SelfCountingInstance::counter, 1);
+
+    Injected<SelfCountingInstance> test2;
+    Assert::eq(test2->value, 1);
+    Assert::eq(SelfCountingInstance::counter, 2);
+
+    Injected<SelfCountingInstance>  test2copy = test2;
+    Assert::eq(test2copy->value, 1);
+    Assert::eq(SelfCountingInstance::counter, 2);
+
+    Injected<SelfCountingInstance>  test2copy2(test2);
+    Assert::eq(test2copy2->value, 1);
+    Assert::eq(SelfCountingInstance::counter, 2);
+
+    Assert::eq(test->value, 0); // no side effect from test2
+    Assert::eq(testcopy2->value, 0); // no side effect from test2
+
+    testcopy = test;
+    Assert::eq(testcopy->value, 0);
+    Assert::eq(SelfCountingInstance::counter, 2);
+
+}));
+
 
 END_TEST_GROUP
-
-
